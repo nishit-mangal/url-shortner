@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 import URL from "../models/url.js";
 
 export async function generateShortUrl(req, resp) {
+  //TODO: Make a link generation unique for a user
   const orignalUrl = req.body?.originalUrl;
   if (!orignalUrl) {
     return resp.status(400).json({ message: "No URL found" });
@@ -11,6 +12,7 @@ export async function generateShortUrl(req, resp) {
     shortLink: shortId,
     originalLink: orignalUrl,
     visitHistory: [],
+    createdBy: req.user
   });
   return resp.render('home',{
     id:shortId
@@ -48,5 +50,10 @@ export async function getAnalytics(req, resp) {
 
 export async function getAllUrls(){
   const urlObj = await URL.find({})
+  return urlObj
+}
+
+export async function urlByUserId(id){
+  const urlObj = await URL.find({createdBy:id})
   return urlObj
 }

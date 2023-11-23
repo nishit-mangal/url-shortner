@@ -13,7 +13,7 @@
     <% } %>
 
     <div>
-      <form method="post" action="/url">
+      <form method="post" action="/url" id="generateURL">
         <label> Enter Original URL: </label>
         <input
           type="text"
@@ -24,7 +24,10 @@
       </form>
     </div>
 
-    <br> <br>
+    <% if (locals.urls) { %>
+
+    <br />
+    <br />
     <div>
       <table>
         <thead>
@@ -39,11 +42,22 @@
             <td><%= index+1 %></td>
             <td><%= element?.originalLink %></td>
             <td>http://localhost:8001/url/<%= element?.shortLink %></td>
-            <td><%= element?.visitHistory.length%></td> 
+            <td><%= element?.visitHistory.length%></td>
           </tr>
           <% }) %>
         </tbody>
       </table>
     </div>
+    <% } %>
+
+    <script>
+      // Add an event listener for the 'beforeunload' event
+      window.addEventListener("beforeunload", function () {
+        // Get the form element
+        var form = document.getElementById("generateURL");
+        // Reset the form
+        form.reset();
+      });
+    </script>
   </body>
 </html>
