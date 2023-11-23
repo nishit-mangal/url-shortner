@@ -12,7 +12,9 @@ export async function generateShortUrl(req, resp) {
     originalLink: orignalUrl,
     visitHistory: [],
   });
-  return resp.status(200).json({ id: `${shortId}` });
+  return resp.render('home',{
+    id:shortId
+  })
 }
 
 export async function getRedirectUrl(req, res) {
@@ -42,4 +44,9 @@ export async function getAnalytics(req, resp) {
     analytics: (urlObj?.visitHistory)
   }
   resp.status(200).json(returnObj);
+}
+
+export async function getAllUrls(){
+  const urlObj = await URL.find({})
+  return urlObj
 }
