@@ -1,3 +1,4 @@
+import dotenv from 'dotenv'
 import express from 'express'
 import { router } from './routes/url.js'
 import { connectMongoDB } from './connect.js'
@@ -8,8 +9,9 @@ import cookieParser from 'cookie-parser'
 import { checkAuth, restrictUserIfNotLoggedIn } from './middleware/auth.js'
 
 const app = express()
-const PORT = 8001
-const connectionString = 'mongodb://localhost:27017/link-shortner'
+dotenv.config()
+const PORT = process.env.PORT
+const connectionString = `${process.env.MONGO_URL}`
 connectMongoDB(connectionString)
 
 app.use(express.json());
